@@ -98,7 +98,7 @@ def get_ripe_reverse_dns(ip):
 print(banner)
 # URL di base per la richiesta API
 base_url = 'https://apps.db.ripe.net/db-web-ui/api/rest/fulltextsearch/select'
-dominio_param = "cementir"
+dominio_param = input("Inserisci il parametro di ricerca: ")
 # Parametri iniziali
 params = {
     'facet': 'true',
