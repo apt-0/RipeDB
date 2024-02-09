@@ -13,9 +13,9 @@ setup(
             'ripedb=ripedb.main:main',  # Cambia 'main:main' con il punto d'ingresso appropriato
         ],
     },
-    author="Il Tuo Nome",
+    author="APT-0-Blog",
     author_email="tuaemail@example.com",
     description="Uno strumento per effettuare query e analisi su RipeDB",
-    keywords="ripe ripedb dns ip",
+    keywords="ripe ripedb",
     url="URL del progetto", 
 )
