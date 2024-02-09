@@ -33,7 +33,7 @@ def expand_ip_range(ip_range):
     try:
             net = ipaddress.ip_network(ip_range, strict=False)
             return [str(ip) for ip in net.hosts()]
-    except ValueError:  # Gestisce i valori che non sono un CIDR valido
+    except ValueError: 
         return []
 
 def range_to_cidr(ip_range):
@@ -41,7 +41,6 @@ def range_to_cidr(ip_range):
     if '-' in ip_range:
         start_ip, end_ip = ip_range.split(' - ')
     else:
-        # Se è già un CIDR o un singolo IP, restituisci così com'è
         return ip_range
     
     start = ipaddress.IPv4Address(start_ip)
