@@ -14,7 +14,7 @@ setup(
         ],
     },
     author="APT-0-Blog",
-    author_email="tuaemail@example.com",
+    author_email="cryptovortex@outlook.com",
     description="Uno strumento per effettuare query e analisi su RipeDB",
     keywords="ripe ripedb",
     url="URL del progetto", 
