@@ -17,5 +17,5 @@ setup(
     author_email="cryptovortex@outlook.com",
     description="Uno strumento per effettuare query e analisi su RipeDB",
     keywords="ripe ripedb",
-    url="URL del progetto", 
+    url="https://github.com/apt-0/RipeDB", 
 )
