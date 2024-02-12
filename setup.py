@@ -10,7 +10,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'ripedb=ripedb.main:main',  # Cambia 'main:main' con il punto d'ingresso appropriato
+            'ripedb=ripedb.main:main', 
         ],
     },
     author="APT-0-Blog",
