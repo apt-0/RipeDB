@@ -14,6 +14,15 @@ Prima di iniziare, assicurati di avere installato Python 3.x sul tuo sistema. Ri
 
 ## Installazione
 
+### PIP
+RipeDB può essere installato facilmente tramite pip, il sistema di gestione dei pacchetti di Python. Questo metodo è consigliato per la maggior parte degli utenti poiché gestisce automaticamente tutte le dipendenze del progetto.
+
+Per installare RipeDB, esegui il seguente comando:
+
+```bash
+pip install ripedb
+```
+
 Per installare RipeDB, segui questi passi:
 
 1. Clona il repository:
@@ -24,13 +33,13 @@ git clone https://github.com/tuo-username/RipeDB.git
 Installa le dipendenze necessarie:
 ```bash
 cd RipeDB
-pip install -r requirements.txt
+pip install .
 ```
 
 ## Uso
-Per avviare RipeDB, esegui il seguente comando dalla directory principale del progetto:
+Per avviare RipeDB, esegui il seguente comando:
 ```bash
-python -m ripedb
+ripedb
 ```
 Segui le istruzioni a schermo per inserire i parametri di ricerca e visualizzare i risultati.
 
