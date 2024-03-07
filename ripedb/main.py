@@ -15,6 +15,13 @@ except ImportError:
     print('[!] Module "pandas" not installed. Try: python3 -m pip install pandas')
     sys.exit(-1)
 
+try:
+    import openpyxl
+except ImportError:
+    print('[!] Module "openpyxl" not installed. Try: python3 -m pip install openpyxl')
+    sys.exit(-1)
+
+
 banner = """
 ····················································
 :                                                  :
@@ -50,6 +57,27 @@ def range_to_cidr(ip_range):
     
     return f"{start}/{cidr}"
 
+def export_xlsx(export_path, sheet, df_name):
+    df_name.to_excel(export_path, sheet_name=sheet, index=False)
+    print(f'File saved in: {export_path}')
+    print(" ")
+
+def export_xlsx_newsheet(export_path, sheet, df_name):
+    try:
+        with pd.ExcelWriter(export_path, engine='openpyxl', mode='a') as writer:  
+            df_name.to_excel(writer, sheet_name=sheet, index=False)  
+        print(f'File sovrascritto: {export_path}\nNuovo foglio creato: {sheet}')
+        print(" ")
+    except PermissionError: 
+        print('[!] Export failed: The excel file must be closed in order to be overwritten by the program. Close it and try the execution again.')
+        print(" ")
+        risposta = input("Do you want to try exporting the results to an Excel file again? (y/n):")
+        print(" ")
+        if risposta.lower() == 'y': 
+            with pd.ExcelWriter(export_path, engine='openpyxl', mode='a') as writer:  
+                df_name.to_excel(writer, sheet_name=sheet, index=False)  
+                print(f'File sovrascritto: {export_path}\nNuovo foglio creato: {sheet}')
+                print(" ")
 
 def rimuovi_righe(dataframe, indici_da_rimuovere):
     # Rimuovi le righe
@@ -93,7 +121,7 @@ def get_ripe_reverse_dns(ip):
 def main():
     print(banner)
     base_url = 'https://apps.db.ripe.net/db-web-ui/api/rest/fulltextsearch/select'
-    dominio_param = input("Inserisci il parametro di ricerca: ")
+    dominio_param = input("Enter the search parameter:")
    
     params = {
         'facet': 'true',
@@ -112,18 +140,18 @@ def main():
         xml_data = response.text
         
         if not xml_data.strip(): 
-            print("Nessun dato trovato, uscita dal ciclo.")
+            print("No data found, exiting the loop.")
             break
         
         root = ET.fromstring(xml_data)
         docs = root.findall('.//doc')
         
         if not docs:
-            #print("Nessun dato trovato, uscita dal ciclo.")
+            print("No data found, exiting the loop.")
             break
         
         for doc in docs:
-            descr_element = doc.find("str[@name='descr']")
+            descr_element = doc.find("str[@name='description']")
             netname_element = doc.find("str[@name='netname']")
             inetnum_element = doc.find("str[@name='inetnum']")
             
@@ -131,7 +159,7 @@ def main():
             netname_text = netname_element.text if netname_element is not None else "N/A"
             inetnum_text = inetnum_element.text if inetnum_element is not None else "N/A"
             
-            results.append({"Inetnum": inetnum_text, "Descrizione": descr_text, "NetName": netname_text})
+            results.append({"Inetnum": inetnum_text, "Description": descr_text, "NetName": netname_text})
         
         params['start'] += len(docs)
 
@@ -170,6 +198,12 @@ def main():
             df = rimuovi_righe(df, indici_da_rimuovere)
             print(df)
             print(" ")
+
+    # Esporta in xlsx
+    risposta = input("Vuoi esportare i risultati in un file excel? (s/n): ")
+    print(" ")
+    if risposta.lower() == 's':
+        export_xlsx(ds_export_path, dominio_param, df)
 
     risposta_reverse = input("Do you want to perform the reverse DNS lookup? (y/n):")
     print(" ")
