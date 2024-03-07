@@ -2,6 +2,7 @@ import sys
 import xml.etree.ElementTree as ET
 import ipaddress
 import socket
+import os
 
 try:
     import requests
