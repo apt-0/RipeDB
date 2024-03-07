@@ -242,6 +242,14 @@ def main():
             df_subnet = pd.DataFrame(dati_ip_dominio)
             if not df_subnet.empty:
                 print(df_subnet)
+                risposta = input("Vuoi esportare i risultati in un file excel? (s/n): ")
+                print(" ")
+                if risposta.lower() == 's':
+                    cidr_sheet = cidr.replace("/","-") # il carattere '/' non è ammesso nei fogli excel
+                    if os.path.exists(reverseds_export_path):                    
+                        export_xlsx_newsheet(reverseds_export_path, cidr_sheet, df_subnet)
+                    else:
+                        export_xlsx(reverseds_export_path, cidr_sheet, df_subnet)
             else:
                 print("No domain found for the IP addresses in this subnet.")
 
