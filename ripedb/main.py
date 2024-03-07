@@ -119,6 +119,26 @@ def get_ripe_reverse_dns(ip):
     else:
         return "No domain found"
 
+def get_export_path(prompt):
+    """
+    Chiede all'utente di inserire un percorso di esportazione. 
+    Se l'input è vuoto, utilizza la directory corrente.
+
+    Args:
+        prompt (str): Il messaggio da visualizzare all'utente.
+
+    Returns:
+        str: Il percorso di esportazione scelto dall'utente o la directory corrente.
+    """
+    export_path = input(prompt)
+    if not export_path:
+        export_path = os.getcwd()
+    else:
+        if not os.path.exists(export_path):
+            print(f"La directory specificata non esiste: {export_path}")
+            return get_export_path(prompt)
+    return export_path
+
 def main():
     print(banner)
     base_url = 'https://apps.db.ripe.net/db-web-ui/api/rest/fulltextsearch/select'
@@ -204,6 +224,9 @@ def main():
     risposta = input("Vuoi esportare i risultati in un file excel? (s/n): ")
     print(" ")
     if risposta.lower() == 's':
+        export_path = get_export_path("Enter the export path for the Excel file (leave blank to use the current directory): ")
+        ds_export_path = os.path.join(export_path, f"{dominio_param}_results.xlsx")
+        reverseds_export_path = os.path.join(export_path, f"{dominio_param}_reverse_results.xlsx")
         export_xlsx(ds_export_path, dominio_param, df)
 
     risposta_reverse = input("Do you want to perform the reverse DNS lookup? (y/n):")
@@ -250,6 +273,8 @@ def main():
                     if os.path.exists(reverseds_export_path):                    
                         export_xlsx_newsheet(reverseds_export_path, cidr_sheet, df_subnet)
                     else:
+                        export_path = get_export_path("Enter the export path for the Excel file (leave blank to use the current directory): ")
+                        reverseds_export_path = os.path.join(export_path, f"{dominio_param}_reverse_results.xlsx")
                         export_xlsx(reverseds_export_path, cidr_sheet, df_subnet)
             else:
                 print("No domain found for the IP addresses in this subnet.")
