@@ -121,14 +121,14 @@ def get_ripe_reverse_dns(ip):
 
 def get_export_path(prompt):
     """
-    Chiede all'utente di inserire un percorso di esportazione. 
-    Se l'input è vuoto, utilizza la directory corrente.
+    Asks the user to enter an export path.
+    If the input is empty, uses the current directory.
 
     Args:
-        prompt (str): Il messaggio da visualizzare all'utente.
+        prompt (str): The message to display to the user.
 
     Returns:
-        str: Il percorso di esportazione scelto dall'utente o la directory corrente.
+        str: The export path chosen by the user or the current directory.
     """
     export_path = input(prompt)
     if not export_path:
