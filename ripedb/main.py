@@ -28,7 +28,7 @@ banner = """
 :                                                  :
 ····················································
 """
-# Funzione per espandere il range di indirizzi IP
+
 def expand_ip_range(ip_range):
     try:
             net = ipaddress.ip_network(ip_range, strict=False)
@@ -37,7 +37,6 @@ def expand_ip_range(ip_range):
         return []
 
 def range_to_cidr(ip_range):
-    # Gestisce un range di indirizzi IP
     if '-' in ip_range:
         start_ip, end_ip = ip_range.split(' - ')
     else:
@@ -55,13 +54,11 @@ def range_to_cidr(ip_range):
 def rimuovi_righe(dataframe, indici_da_rimuovere):
     # Rimuovi le righe
     dataframe_ridotto = dataframe.drop(indici_da_rimuovere)
-    
     # Resetta l'indice per avere un indice continuo
     dataframe_ridotto = dataframe_ridotto.reset_index(drop=True)
     
     return dataframe_ridotto
 
-# Funzione per processare l'input dell'utente e restituire una lista di indici
 def processa_input_indici(input_utente):
     indici_da_rimuovere = []
     # Separa i vari range o indici singoli (es. "1-3,4-5" diventa ["1-3", "4-5"])
@@ -80,31 +77,30 @@ def reverse_dns(ip):
     try:
         return socket.gethostbyaddr(ip)[0]
     except socket.herror:
-        return "Nessun dominio trovato"
+        return "No domain found"
     except socket.gaierror as e:
-        return f"Errore nella risoluzione di {ip}: {e}"
+        return f"Error in resolving {ip}: {e}"
 
 def get_ripe_reverse_dns(ip):
     url = f"https://stat.ripe.net/data/reverse-dns-ip/data.json?resource={ip}"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        return data.get('result', {}).get('description', 'Nessun dominio trovato')
+        return data.get('result', {}).get('description', 'No domain found')
     else:
-        return "Nessun dominio trovato"
+        return "No domain found"
 
 def main():
     print(banner)
-    # URL di base per la richiesta API
     base_url = 'https://apps.db.ripe.net/db-web-ui/api/rest/fulltextsearch/select'
     dominio_param = input("Inserisci il parametro di ricerca: ")
-    # Parametri iniziali
+   
     params = {
         'facet': 'true',
         'format': 'xml',
         'hl': 'true',
         'q': '('+dominio_param+')',
-        'start': 0,  # Inizia dalla prima pagina
+        'start': 0,  
         'wt': 'json'
     }
 
@@ -112,25 +108,20 @@ def main():
     results = []
 
     while True:
-        # Fai una richiesta GET alla URL con i parametri
         response = requests.get(base_url, params=params)
         xml_data = response.text
         
-        # Assicurati che la risposta non sia vuota
-        if not xml_data.strip():  # strip() rimuove spazi bianchi e newline
+        if not xml_data.strip(): 
             print("Nessun dato trovato, uscita dal ciclo.")
             break
         
-        # Analizza il XML
         root = ET.fromstring(xml_data)
         docs = root.findall('.//doc')
         
-        # Controlla se ci sono elementi <doc> nella risposta
         if not docs:
             #print("Nessun dato trovato, uscita dal ciclo.")
             break
         
-        # Estrai le descrizioni, le NetName e gli indirizzi IP, e aggiungi al risultato
         for doc in docs:
             descr_element = doc.find("str[@name='descr']")
             netname_element = doc.find("str[@name='netname']")
@@ -142,101 +133,89 @@ def main():
             
             results.append({"Inetnum": inetnum_text, "Descrizione": descr_text, "NetName": netname_text})
         
-        # Aggiorna il parametro 'start' per la prossima pagina
         params['start'] += len(docs)
 
-    # Crea un DataFrame dai risultati
     df = pd.DataFrame(results)
-    # Imposta le opzioni di visualizzazione di Pandas
-    pd.set_option('display.max_rows', None)  # Mostra tutte le righe
-    pd.set_option('display.max_columns', None)  # Mostra tutte le colonne
-    pd.set_option('display.width', 1000)  # Aumenta la larghezza massima delle colonne
-    pd.set_option('display.max_colwidth', None)  # Mostra il contenuto completo delle colonne
+    pd.set_option('display.max_rows', None)  
+    pd.set_option('display.max_columns', None)  
+    pd.set_option('display.width', 1000)  
+    pd.set_option('display.max_colwidth', None) 
 
-    # Applica la funzione a ogni riga del DataFrame per la colonna 'Inetnum'
     df['CIDR'] = df['Inetnum'].apply(range_to_cidr)
     inetnum_idx = df.columns.get_loc('Inetnum') + 1
 
-    # Inserisci la colonna 'IPs' subito dopo 'Inetnum'
     df.insert(inetnum_idx, 'CIDR', df.pop('CIDR'))
 
-    # Rimuovi le righe dove tutte le colonne sono 'N/A'
-    df = df[(df['Descrizione'] != 'N/A') | (df['NetName'] != 'N/A') | (df['Inetnum'] != 'N/A')]
-    df = df.sort_values(by=['NetName', 'Descrizione', 'Inetnum']).reset_index(drop=True)
-    print("Di seguito i risultati trovati per: "+dominio_param)
+    # Rimuozione delle righe dove tutte le colonne sono 'N/A'
+    df = df[(df['Description'] != 'N/A') | (df['NetName'] != 'N/A') | (df['Inetnum'] != 'N/A')]
+    df = df.sort_values(by=['NetName', 'Description', 'Inetnum']).reset_index(drop=True)
+    print("Below are the results found for:"+dominio_param)
     print(" ")
     print(df.to_string(index=True))
     print(" ")
-    risposta = input("Vuoi eliminare delle righe? (s/n): ")
+    risposta = input("Do you want to delete rows? (y/n):")
     print(" ")
 
-    if risposta.lower() == 's':
-        # Ciclo che continua fino a quando l'utente non inserisce 'n'
+    if risposta.lower() == 'y':
         while True:
-            # Richiedi all'utente di inserire l'indice o i range di indici
-            input_utente = input("Inserisci l'indice o i range di indici da rimuovere (es. '3' o '1-3,4-5'), o 'n' per terminare: ")
+            input_utente = input("Enter the index or range of indices to remove (e.g., '3' or '1-3,4-5'), or 'n' to finish:")
             print(" ")
-            # Controlla se l'utente vuole terminare il processo
+
             if input_utente.lower() == 'n':
-                print("Operazione di pulizia terminata.")
+                print("Cleanup operation completed.")
                 print(" ")
                 break
 
-            # Processa l'input e ottieni la lista di indici da rimuovere
             indici_da_rimuovere = processa_input_indici(input_utente)
-            # Usa la funzione per rimuovere le righe e ottenere il DataFrame aggiornato
             df = rimuovi_righe(df, indici_da_rimuovere)
             print(df)
             print(" ")
 
-    risposta_reverse = input("Vuoi eseguire il reverse DNS lookup? (s/n): ")
+    risposta_reverse = input("Do you want to perform the reverse DNS lookup? (y/n):")
     print(" ")
 
-    if risposta_reverse.lower() == 's':
-        # Seleziona una colonna dal DataFrame che contiene gli indirizzi IP espansi
-        ip_colonna = 'CIDR'  # sostituisci con il nome reale della colonna se è diverso
+    if risposta_reverse.lower() == 'y':
+        ip_colonna = 'CIDR'
 
-        # Per ogni riga nel DataFrame, applica il reverse DNS lookup a ogni IP nel CIDR
         for indice, riga in df.iterrows():
-            cidr = riga[ip_colonna] # Ottieni il CIDR per la riga corrente
-            lista_ip = expand_ip_range(cidr)  # Espandi il CIDR in una lista di indirizzi IP
+            cidr = riga[ip_colonna] 
+            lista_ip = expand_ip_range(cidr)  
 
             print("***************************")
-            print("Risultati per "+cidr)
+            print("Results for "+cidr)
             dati_ip_dominio = []
 
             if not lista_ip:
-                print(f"Nessun indirizzo IP trovato per il CIDR: {cidr}")
+                print(f"No IP address found for the CIDR: {cidr}")
                 print(" ")
                 continue
-            # Esegui il reverse DNS lookup per ogni IP nella lista
+           
             domini = []
             for ip in lista_ip:
-                dominio_locale = reverse_dns(ip) # Esegui il reverse DNS locale
-                dominio_ripe = get_ripe_reverse_dns(ip) # Esegui il reverse DNS tramite API di RIPE
+                dominio_locale = reverse_dns(ip) 
+                dominio_ripe = get_ripe_reverse_dns(ip) 
             
-                if dominio_locale == dominio_ripe or dominio_ripe != "Nessun dominio trovato":
+                if dominio_locale == dominio_ripe or dominio_ripe != "No domain found":
                     dominio = dominio_ripe
-                elif dominio_locale != "Nessun dominio trovato":
+                elif dominio_locale != "No domain found":
                     dominio = dominio_locale
                 else:
-                    dominio = "Nessun dominio trovato"
+                    dominio = "No domain found"
                 
-                if dominio != "Nessun dominio trovato":
-                    dati_ip_dominio.append({'IP': ip, 'Dominio': dominio})
+                if dominio != "No domain found":
+                    dati_ip_dominio.append({'IP': ip, 'Domain': dominio})
 
             df_subnet = pd.DataFrame(dati_ip_dominio)
             if not df_subnet.empty:
                 print(df_subnet)
             else:
-                print("Nessun dominio trovato per gli indirizzi IP in questa subnet.")
+                print("No domain found for the IP addresses in this subnet.")
 
         print(" ")
     else:
-        print("Salto il reverse DNS lookup.")
+        print("Skipping the reverse DNS lookup.")
 
-    # Continua con la fase successiva del programma
-    print("Termine Programma...")
+    #print("Termine Programma...")
 
 if __name__ == "__main__":
     main()
