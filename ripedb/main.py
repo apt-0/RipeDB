@@ -246,7 +246,7 @@ def main():
                 risposta = input("Vuoi esportare i risultati in un file excel? (s/n): ")
                 print(" ")
                 if risposta.lower() == 's':
-                    cidr_sheet = cidr.replace("/","-") # il carattere '/' non è ammesso nei fogli excel
+                    cidr_sheet = cidr.replace("/","-")
                     if os.path.exists(reverseds_export_path):                    
                         export_xlsx_newsheet(reverseds_export_path, cidr_sheet, df_subnet)
                     else:
