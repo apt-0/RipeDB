@@ -135,7 +135,7 @@ def get_export_path(prompt):
         export_path = os.getcwd()
     else:
         if not os.path.exists(export_path):
-            print(f"La directory specificata non esiste: {export_path}")
+            print(f"The specified directory does not exist: {export_path}")
             return get_export_path(prompt)
     return export_path
 
@@ -221,9 +221,9 @@ def main():
             print(" ")
 
     # Esporta in xlsx
-    risposta = input("Vuoi esportare i risultati in un file excel? (s/n): ")
+    risposta = input("Do you want to export the results to an Excel file? (y/n):")
     print(" ")
-    if risposta.lower() == 's':
+    if risposta.lower() == 'y':
         export_path = get_export_path("Enter the export path for the Excel file (leave blank to use the current directory): ")
         ds_export_path = os.path.join(export_path, f"{dominio_param}_results.xlsx")
         reverseds_export_path = os.path.join(export_path, f"{dominio_param}_reverse_results.xlsx")
@@ -266,9 +266,9 @@ def main():
             df_subnet = pd.DataFrame(dati_ip_dominio)
             if not df_subnet.empty:
                 print(df_subnet)
-                risposta = input("Vuoi esportare i risultati in un file excel? (s/n): ")
+                risposta = input("Do you want to export the results to an Excel file? (y/n):")
                 print(" ")
-                if risposta.lower() == 's':
+                if risposta.lower() == 'y':
                     cidr_sheet = cidr.replace("/","-")
                     if os.path.exists(reverseds_export_path):                    
                         export_xlsx_newsheet(reverseds_export_path, cidr_sheet, df_subnet)
