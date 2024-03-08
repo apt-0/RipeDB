@@ -1,52 +1,39 @@
 # RipeDB
 
-RipeDB è uno strumento Python progettato per facilitare la ricerca e l'analisi di dati relativi ai domini Internet tramite l'API di RIPE. Questo progetto permette agli utenti di ottenere informazioni dettagliate sui domini, comprese le assegnazioni IP, la geolocalizzazione e altro ancora.
 
-## Funzionalità
+RipeDB is a Python tool designed to facilitate the search and analysis of internet domain data through the RIPE API. This project allows users to obtain detailed information about domains and their IP assignments.
 
-- Ricerca di informazioni sui domini utilizzando parametri personalizzabili.
-- Analisi dei dati raccolti e generazione di report.
-- Interfaccia utente semplice ed intuitiva.
+## Features
 
-## Prerequisiti
+- Search for domain information using customizable parameters.
+- Analysis of collected data and generation of reports.
+- Simple and intuitive user interface.
 
-Prima di iniziare, assicurati di avere installato Python 3.x sul tuo sistema. RipeDB dipende da alcuni pacchetti esterni, che sono elencati nel file `requirements.txt`.
+## Prerequisites
 
-## Installazione
+Before you begin, make sure you have Python 3.x installed on your system. RipeDB depends on some external packages, which are listed in the requirements.txt file.
+
+## Installation
 
 ### PIP
-RipeDB può essere installato facilmente tramite pip, il sistema di gestione dei pacchetti di Python. Questo metodo è consigliato per la maggior parte degli utenti poiché gestisce automaticamente tutte le dipendenze del progetto.
+RipeDB can be easily installed via pip. This method is recommended for most users as it automatically manages all project dependencies.
 
-Per installare RipeDB, esegui il seguente comando:
+To install RipeDB, run the following command:
 
 ```bash
 pip install ripedb
 ```
-
-Per installare RipeDB, segui questi passi:
-
-1. Clona il repository:
-
-```bash
-git clone https://github.com/tuo-username/RipeDB.git
-```
-Installa le dipendenze necessarie:
-```bash
-cd RipeDB
-pip install .
-```
-
-## Uso
-Per avviare RipeDB, esegui il seguente comando:
+## Usage
+To start RipeDB, run the following command:
 ```bash
 ripedb
 ```
-Segui le istruzioni a schermo per inserire i parametri di ricerca e visualizzare i risultati.
+Follow the on-screen instructions to enter search parameters and view the results.
 
 ## Licenza
-Distribuito sotto la Licenza MIT. Vedi LICENSE per maggiori informazioni.
+Distributed under the MIT License. See LICENSE for more information.
 
 ## Contatti
 APT-0  - cryptovortex@outlook.com
 
-Link del Progetto: https://github.com/tuo-username/RipeDB
+Project Link: https://github.com/tuo-username/RipeDB
