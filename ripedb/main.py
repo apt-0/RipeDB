@@ -59,24 +59,24 @@ def range_to_cidr(ip_range):
     return f"{start}/{cidr}"
 
 def export_xlsx(export_path, sheet, df_name):
-    df_name.to_excel(export_path, sheet_name=sheet, index=False)
+    df_name.to_xslx(export_path, sheet_name=sheet, index=False)
     print(f'File saved in: {export_path}')
     print(" ")
 
 def export_xlsx_newsheet(export_path, sheet, df_name):
     try:
         with pd.ExcelWriter(export_path, engine='openpyxl', mode='a') as writer:  
-            df_name.to_excel(writer, sheet_name=sheet, index=False)  
+            df_name.to_xslx(writer, sheet_name=sheet, index=False)  
         print(f'File sovrascritto: {export_path}\nNuovo foglio creato: {sheet}')
         print(" ")
     except PermissionError: 
-        print('[!] Export failed: The excel file must be closed in order to be overwritten by the program. Close it and try the execution again.')
+        print('[!] Export failed: The xslx file must be closed in order to be overwritten by the program. Close it and try the execution again.')
         print(" ")
-        risposta = input("Do you want to try exporting the results to an Excel file again? (y/n):")
+        risposta = input("Do you want to try exporting the results to an xslx file again? (y/n):")
         print(" ")
         if risposta.lower() == 'y': 
             with pd.ExcelWriter(export_path, engine='openpyxl', mode='a') as writer:  
-                df_name.to_excel(writer, sheet_name=sheet, index=False)  
+                df_name.to_xslx(writer, sheet_name=sheet, index=False)  
                 print(f'File sovrascritto: {export_path}\nNuovo foglio creato: {sheet}')
                 print(" ")
 
@@ -221,10 +221,10 @@ def main():
             print(" ")
 
     # Esporta in xlsx
-    risposta = input("Do you want to export the results to an Excel file? (y/n):")
+    risposta = input("Do you want to export the results to an xslx file? (y/n):")
     print(" ")
     if risposta.lower() == 'y':
-        export_path = get_export_path("Enter the export path for the Excel file (leave blank to use the current directory): ")
+        export_path = get_export_path("Enter the export path for the xslx file (leave blank to use the current directory): ")
         ds_export_path = os.path.join(export_path, f"{dominio_param}_results.xlsx")
         reverseds_export_path = os.path.join(export_path, f"{dominio_param}_reverse_results.xlsx")
         export_xlsx(ds_export_path, dominio_param, df)
@@ -266,14 +266,14 @@ def main():
             df_subnet = pd.DataFrame(dati_ip_dominio)
             if not df_subnet.empty:
                 print(df_subnet)
-                risposta = input("Do you want to export the results to an Excel file? (y/n):")
+                risposta = input("Do you want to export the results to an xslx file? (y/n):")
                 print(" ")
                 if risposta.lower() == 'y':
                     cidr_sheet = cidr.replace("/","-")
                     if os.path.exists(reverseds_export_path):                    
                         export_xlsx_newsheet(reverseds_export_path, cidr_sheet, df_subnet)
                     else:
-                        export_path = get_export_path("Enter the export path for the Excel file (leave blank to use the current directory): ")
+                        export_path = get_export_path("Enter the export path for the xslx file (leave blank to use the current directory): ")
                         reverseds_export_path = os.path.join(export_path, f"{dominio_param}_reverse_results.xlsx")
                         export_xlsx(reverseds_export_path, cidr_sheet, df_subnet)
             else:
