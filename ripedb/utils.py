@@ -2,6 +2,27 @@ import ipaddress
 import socket
 import requests
 import os
+import openpyxl
+
+def richiedi_conferma(prompt):
+    """
+    Asks the user to enter 'y' (yes) or 'n' (no) and keeps asking until a valid response is received.
+
+    Args:
+        prompt (str): The message to display to the user.
+
+    Returns:
+        bool: True if the user answers 'y', False if they answer 'n'.
+    """
+    while True:
+        risposta = input(prompt).lower()
+        if risposta == 'y':
+            return True
+        elif risposta == 'n':
+            return False
+        else:
+            print("Invalid response. Enter 'y' for yes or 'n' for no.")
+
 
 def expand_ip_range(ip_range):
     try:
@@ -25,14 +46,14 @@ def range_to_cidr(ip_range):
     return f"{start}/{cidr}"
 
 def export_xlsx(export_path, sheet, df_name):
-    df_name.to_xslx(export_path, sheet_name=sheet, index=False)
+    df_name.to_excel(export_path, sheet_name=sheet, index=False)
     print(f'File saved in: {export_path}')
     print(" ")
 
 def export_xlsx_newsheet(export_path, sheet, df_name):
     try:
         with pd.ExcelWriter(export_path, engine='openpyxl', mode='a') as writer:  
-            df_name.to_xslx(writer, sheet_name=sheet, index=False)  
+            df_name.to_excel(writer, sheet_name=sheet, index=False)  
         print(f'File overwritten: {export_path}\nNew sheet created: {sheet}')
         print(" ")
     except PermissionError: 
