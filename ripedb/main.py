@@ -1,4 +1,4 @@
-from utils import expand_ip_range, range_to_cidr, reverse_dns, get_ripe_reverse_dns, rimuovi_righe, processa_input_indici, richiedi_e_valida_indici, get_export_path, export_xlsx, export_xlsx_newsheet
+from utils import expand_ip_range, range_to_cidr, reverse_dns, get_ripe_reverse_dns, rimuovi_righe, richiedi_e_valida_indici, get_export_path, export_xlsx, export_xlsx_newsheet, richiedi_conferma
 import sys
 import xml.etree.ElementTree as ET
 import os
@@ -100,10 +100,10 @@ def main():
     print(" ")
     print(df.to_string(index=True))
     print(" ")
-    risposta = input("Do you want to delete rows? (y/n):")
+    risposta = richiedi_conferma("Do you want to delete rows? (y/n):")
     print(" ")
 
-    if risposta.lower() == 'y':
+    if risposta:
         while True:
             max_indice = len(df) - 1
             indici_da_rimuovere = richiedi_e_valida_indici(max_indice)
@@ -118,18 +118,18 @@ def main():
             print(" ")
 
     # Esporta in xlsx
-    risposta = input("Do you want to export the results to an xslx file? (y/n):")
+    risposta = richiedi_conferma("Do you want to export the results to an xslx file? (y/n):")
     print(" ")
-    if risposta.lower() == 'y':
+    if risposta:
         export_path = get_export_path("Enter the export path for the xslx file (leave blank to use the current directory): ")
         ds_export_path = os.path.join(export_path, f"{dominio_param}_results.xlsx")
         reverseds_export_path = os.path.join(export_path, f"{dominio_param}_reverse_results.xlsx")
         export_xlsx(ds_export_path, dominio_param, df)
 
-    risposta_reverse = input("Do you want to perform the reverse DNS lookup? (y/n):")
+    risposta_reverse = richiedi_conferma("Do you want to perform the reverse DNS lookup? (y/n):")
     print(" ")
 
-    if risposta_reverse.lower() == 'y':
+    if risposta_reverse:
         ip_colonna = 'CIDR'
 
         for indice, riga in df.iterrows():
@@ -163,9 +163,9 @@ def main():
             df_subnet = pd.DataFrame(dati_ip_dominio)
             if not df_subnet.empty:
                 print(df_subnet)
-                risposta = input("Do you want to export the results to an xslx file? (y/n):")
+                risposta = richiedi_conferma("Do you want to export the results to an xslx file? (y/n):")
                 print(" ")
-                if risposta.lower() == 'y':
+                if risposta:
                     cidr_sheet = cidr.replace("/","-")
                     if os.path.exists(reverseds_export_path):                    
                         export_xlsx_newsheet(reverseds_export_path, cidr_sheet, df_subnet)
