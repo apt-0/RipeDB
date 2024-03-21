@@ -1,5 +1,8 @@
 from setuptools import setup, find_packages
 
+with open("README.md", "r") as fh: 
+    long_description = fh.read() 
+
 setup(
     name="RipeDB",
     version="0.2",
@@ -14,6 +17,8 @@ setup(
             'ripedb=main:main', 
         ],
     },
+    long_description=long_description, 
+    long_description_content_type="text/markdown",
     author="APT-0-Blog",
     author_email="cryptovortex@outlook.com",
     description="Uno strumento per effettuare query e analisi su RipeDB",
