@@ -1,12 +1,12 @@
 # RipeDB
 
 
-RipeDB is a Python tool designed to facilitate the search and analysis of internet domain data through the RIPE API. This project allows users to obtain detailed information about domains and their IP assignments.
+RipeDB is a Python tool designed to facilitate the search and analysis of internet domain data through the RIPE DATABASE. This project allows users to obtain detailed information about domains and their IP assignments.
 
 ## Features
 
 - Search for domain information using customizable parameters.
-- Analysis of collected data and generation of reports.
+- Analysis of collected data and generation of xlsx reports.
 - Simple and intuitive user interface.
 
 ## Prerequisites
@@ -30,10 +30,10 @@ ripedb
 ```
 Follow the on-screen instructions to enter search parameters and view the results.
 
-## Licenza
+## License
 Distributed under the MIT License. See LICENSE for more information.
 
-## Contatti
+## Contacts
 APT-0  - cryptovortex@outlook.com
 
 Project Link: https://github.com/tuo-username/RipeDB
