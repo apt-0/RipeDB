@@ -37,3 +37,5 @@ Distributed under the MIT License. See LICENSE for more information.
 APT-0  - cryptovortex@outlook.com
 
 Project Link: https://github.com/tuo-username/RipeDB
+
+[![Downloads](https://static.pepy.tech/badge/ripedb)](https://pepy.tech/project/ripedb)
