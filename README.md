@@ -38,4 +38,4 @@ Distributed under the MIT License. See LICENSE for more information.
 ## Contacts
 APT-0  - cryptovortex@outlook.com
 
-Project Link: https://github.com/tuo-username/RipeDB
+Project Link: https://github.com/apt-0/RipeDB
