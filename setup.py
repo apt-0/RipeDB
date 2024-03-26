@@ -14,7 +14,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'ripedb=main:main', 
+            'ripedb=ripedb.main:main', 
         ],
     },
     long_description=long_description, 
