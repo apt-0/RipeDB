@@ -1,7 +1,9 @@
 [![Downloads](https://static.pepy.tech/badge/ripedb)](https://pepy.tech/project/ripedb)
 
 # RipeDB
-
+<p align="center">
+  <img src="https://github.com/apt-0/RipeDB/blob/main/RipeDB_Image.jpg" width="300" height="300">
+</p>
 
 RipeDB is a Python tool designed to facilitate the search and analysis of internet domain data through the RIPE DATABASE. This project allows users to obtain detailed information about domains and their IP assignments.
 
