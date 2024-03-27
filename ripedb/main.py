@@ -1,7 +1,8 @@
-from ripedb.utils import utils
+from ripedb.utils import utils, helper
 import sys
 import xml.etree.ElementTree as ET
 import os
+import argparse
 
 try:
     import requests
@@ -38,8 +39,22 @@ banner = """
 
 def main():
     print(banner)
+    parser = argparse.ArgumentParser(description='RipeDB: A tool for performing queries and analysis on RipeDB.')
+    parser.add_argument('command', nargs='?', help='The command to execute (query, help).')
+    parser.add_argument('-q', '--query', help='Query parameter')
+    parser.add_argument('-os', '--only-search', help='Disable DNS resolution and editing mode', action='store_true')
+
+    args = parser.parse_args()
+
+    if args.command == 'help':
+        helper.show_general_help()
+
     base_url = 'https://apps.db.ripe.net/db-web-ui/api/rest/fulltextsearch/select'
-    dominio_param = input("Enter the search parameter:")
+    
+    if args.query:
+        dominio_param = args.query
+    else:    
+        dominio_param = input("Enter the search parameter:")
    
     params = {
         'facet': 'true',
@@ -50,7 +65,6 @@ def main():
         'wt': 'json'
     }
 
-    # Lista per tenere traccia dei risultati
     results = []
 
     while True:
