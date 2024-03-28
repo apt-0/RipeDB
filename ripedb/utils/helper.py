@@ -15,4 +15,3 @@ def show_general_help():
         ripedb help [command]
     """
     print(help_text)
-

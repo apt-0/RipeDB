@@ -4,7 +4,8 @@ import requests
 import os
 import openpyxl
 
-def richiedi_conferma(prompt):
+
+def request_confirm(prompt):
     """
     Asks the user to enter 'y' (yes) or 'n' (no) and keeps asking until a valid response is received.
 
@@ -26,65 +27,75 @@ def richiedi_conferma(prompt):
 
 def expand_ip_range(ip_range):
     try:
-            net = ipaddress.ip_network(ip_range, strict=False)
-            return [str(ip) for ip in net.hosts()]
-    except ValueError: 
+        net = ipaddress.ip_network(ip_range, strict=False)
+        return [str(ip) for ip in net.hosts()]
+    except ValueError:
         return []
+
 
 def range_to_cidr(ip_range):
     if '-' in ip_range:
         start_ip, end_ip = ip_range.split(' - ')
     else:
         return ip_range
-    
+
     start = ipaddress.IPv4Address(start_ip)
     end = ipaddress.IPv4Address(end_ip)
-    
+
     num_hosts = int(end) - int(start) + 1
-    cidr = 32 - int(num_hosts).bit_length() + (num_hosts & (num_hosts - 1) != 0)
-    
+    cidr = 32 - int(num_hosts).bit_length() + \
+        (num_hosts & (num_hosts - 1) != 0)
+
     return f"{start}/{cidr}"
+
 
 def export_xlsx(export_path, sheet, df_name):
     df_name.to_excel(export_path, sheet_name=sheet, index=False)
     print(f'File saved in: {export_path}')
     print(" ")
 
+
 def export_xlsx_newsheet(export_path, sheet, df_name):
     try:
-        with pd.ExcelWriter(export_path, engine='openpyxl', mode='a') as writer:  
-            df_name.to_excel(writer, sheet_name=sheet, index=False)  
+        with pd.ExcelWriter(export_path, engine='openpyxl', mode='a') as writer:
+            df_name.to_excel(writer, sheet_name=sheet, index=False)
         print(f'File overwritten: {export_path}\nNew sheet created: {sheet}')
         print(" ")
-    except PermissionError: 
+    except PermissionError:
         print('[!] Export failed: The xslx file must be closed in order to be overwritten by the program. Close it and try the execution again.')
         print(" ")
-        risposta = input("Do you want to try exporting the results to an xslx file again? (y/n):")
+        risposta = input(
+            "Do you want to try exporting the results to an xslx file again? (y/n):")
         print(" ")
-        if risposta.lower() == 'y': 
-            with pd.ExcelWriter(export_path, engine='openpyxl', mode='a') as writer:  
-                df_name.to_xslx(writer, sheet_name=sheet, index=False)  
-                print(f'File overwritten: {export_path}\nNew sheet created: {sheet}')
+        if risposta.lower() == 'y':
+            with pd.ExcelWriter(export_path, engine='openpyxl', mode='a') as writer:
+                df_name.to_xslx(writer, sheet_name=sheet, index=False)
+                print(
+                    f'File overwritten: {export_path}\nNew sheet created: {sheet}')
                 print(" ")
 
-def rimuovi_righe(dataframe, indici_da_rimuovere):
+
+def remove_lines(dataframe, indici_da_rimuovere):
     dataframe_ridotto = dataframe.drop(indici_da_rimuovere)
     dataframe_ridotto = dataframe_ridotto.reset_index(drop=True)
-    
+
     return dataframe_ridotto
 
-def richiedi_e_valida_indici(max_indice):
+
+def request_valid_indixes(max_indice):
     while True:
-        input_utente = input("Enter the index or range of indices to remove (e.g., '3' or '1-3,4-5'), or 'n' to finish:")
+        input_utente = input(
+            "Enter the index or range of indices to remove (e.g., '3' or '1-3,4-5'), or 'n' to finish:")
         if input_utente.lower() == 'n':
             return []
-        indici_validati = processa_input_indici(input_utente, max_indice)
+        indici_validati = process_input_indixes(input_utente, max_indice)
         if indici_validati is not None:
             return indici_validati
         else:
             print("Input not valid. Try again.")
 
-def processa_input_indici(input_utente, max_indice):
+
+def process_input_indixes(input_utente, max_indice):
     indici_da_rimuovere = []
     if not input_utente.replace('-', '').replace(',', '').isdigit():
         print("L'input contiene caratteri non validi.")
@@ -98,19 +109,22 @@ def processa_input_indici(input_utente, max_indice):
                 if 0 <= inizio <= max_indice and 0 <= fine <= max_indice and inizio <= fine:
                     indici_da_rimuovere.extend(range(inizio, fine + 1))
                 else:
-                    print(f"Index out of range: {parte}. Valid until {max_indice}.")
+                    print(
+                        f"Index out of range: {parte}. Valid until {max_indice}.")
                     return None
             else:
                 indice = int(parte)
                 if 0 <= indice <= max_indice:
                     indici_da_rimuovere.append(indice)
                 else:
-                    print(f"Index out of range: {parte}. Valid until {max_indice}.")
+                    print(
+                        f"Index out of range: {parte}. Valid until {max_indice}.")
                     return None
         except ValueError:
             print(f"Input not valid: {parte}.")
             return None
     return indici_da_rimuovere
+
 
 def reverse_dns(ip):
     try:
@@ -120,6 +134,7 @@ def reverse_dns(ip):
     except socket.gaierror as e:
         return f"Error in resolving {ip}: {e}"
 
+
 def get_ripe_reverse_dns(ip):
     url = f"https://stat.ripe.net/data/reverse-dns-ip/data.json?resource={ip}"
     response = requests.get(url)
@@ -128,6 +143,7 @@ def get_ripe_reverse_dns(ip):
         return data.get('result', {}).get('description', 'No domain found')
     else:
         return "No domain found"
+
 
 def get_export_path(prompt):
     """
