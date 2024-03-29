@@ -150,7 +150,7 @@ def main():
 
             print("***************************")
             print("Results for "+cidr)
-            dati_ip_domain = []
+            data_ip_domain = []
 
             if not lista_ip:
                 print(f"No IP address found for the CIDR: {cidr}")
@@ -171,7 +171,7 @@ def main():
                 if domain != "No domain found":
                     data_ip_domain.append({'IP': ip, 'Domain': domain})
 
-            df_subnet = pd.DataFrame(dati_ip_domain)
+            df_subnet = pd.DataFrame(data_ip_domain)
             if not df_subnet.empty:
                 print(df_subnet)
                 reply = utility.request_confirm(
