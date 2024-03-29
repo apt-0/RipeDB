@@ -1,4 +1,4 @@
-from utils import utility, helper
+from ripedb.utils import utility, helper
 import sys
 import xml.etree.ElementTree as ET
 import os
@@ -95,7 +95,6 @@ def main():
 
     df.insert(inetnum_idx, 'CIDR', df.pop('CIDR'))
 
-    # Rimuozione delle righe dove tutte le colonne sono 'N/A'
     df = df[(df['Description'] != 'N/A') |
             (df['NetName'] != 'N/A') | (df['Inetnum'] != 'N/A')]
     df = df.sort_values(by=['NetName', 'Description',
