@@ -2,7 +2,7 @@
 
 # RipeDB
 <p align="center">
-  <img src="https://github.com/apt-0/RipeDB/blob/main/RipeDB_Image.jpg" width="300" height="300">
+  <img src="https://github.com/apt-0/RipeDB/blob/main/assets/RipeDB_Image.jpg" width="300" height="300">
 </p>
 
 RipeDB is a Python tool designed to facilitate the search and analysis of internet domain data through the RIPE DATABASE. This project allows users to obtain detailed information about domains and their IP assignments.
@@ -39,5 +39,3 @@ Distributed under the MIT License. See LICENSE for more information.
 
 ## Contacts
 APT-0  - cryptovortex@outlook.com
-
-Project Link: https://github.com/apt-0/RipeDB
