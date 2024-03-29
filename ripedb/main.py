@@ -33,8 +33,8 @@ def main():
     parser.add_argument('command', nargs='?',
                         help='The command to execute (query, help).')
     parser.add_argument('-q', '--query', help='Query parameter')
-    parser.add_argument('-os', '--only-search',
-                        help='Disable DNS resolution and editing mode', action='store_true')
+    parser.add_argument('-em', '--editing-mode',
+                        help='Enable DNS resolution and editing mode', action='store_true')
 
     args = parser.parse_args()
 
@@ -104,6 +104,9 @@ def main():
     print(" ")
     print(df.to_string(index=True))
     print(" ")
+
+    if args.editing_mode:
+
     reply = utility.request_confirm("Do you want to delete rows? (y/n):")
     print(" ")
 
