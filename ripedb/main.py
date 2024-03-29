@@ -106,25 +106,83 @@ def main():
     print(" ")
 
     if args.editing_mode:
+        reply = utility.request_confirm("Do you want to delete rows? (y/n):")
+        print(" ")
 
-    reply = utility.request_confirm("Do you want to delete rows? (y/n):")
-    print(" ")
+        if reply:
+            while True:
+                max_indice = len(df) - 1
+                index_to_remove = utility.request_valid_indixes(max_indice)
 
-    if reply:
-        while True:
-            max_indice = len(df) - 1
-            index_to_remove = utility.request_valid_indixes(max_indice)
+                if index_to_remove:
+                    df = utility.remove_lines(df, index_to_remove)
+                    print(df.to_string(index=True))
+                else:
+                    print("")
+                    break
 
-            if index_to_remove:
-                df = utility.remove_lines(df, index_to_remove)
-                print(df.to_string(index=True))
-            else:
-                print("")
-                break
+                print(" ")
+
+        reply_reverse = utility.request_confirm(
+            "Do you want to perform the reverse DNS lookup? (y/n):")
+        print(" ")
+
+        if reply_reverse:
+            ip_colonna = 'CIDR'
+
+            for indice, riga in df.iterrows():
+                cidr = riga[ip_colonna]
+                lista_ip = utility.expand_ip_range(cidr)
+
+                print("***************************")
+                print("Results for "+cidr)
+                data_ip_domain = []
+
+                if not lista_ip:
+                    print(f"No IP address found for the CIDR: {cidr}")
+                    print(" ")
+                    continue
+
+                for ip in lista_ip:
+                    domain_local = utility.reverse_dns(ip)
+                    domain_ripe = utility.get_ripe_reverse_dns(ip)
+
+                    if domain_local == domain_ripe or domain_ripe != "No domain found":
+                        domain = domain_ripe
+                    elif domain_local != "No domain found":
+                        domain = domain_local
+                    else:
+                        domain = "No domain found"
+
+                    if domain != "No domain found":
+                        data_ip_domain.append({'IP': ip, 'Domain': domain})
+
+                df_subnet = pd.DataFrame(data_ip_domain)
+                if not df_subnet.empty:
+                    print(df_subnet)
+                    reply = utility.request_confirm(
+                        "Do you want to export the results to an xslx file? (y/n):")
+                    print(" ")
+                    if reply:
+                        cidr_sheet = cidr.replace("/", "-")
+                        if os.path.exists(reverseds_export_path):
+                            utility.export_xlsx_newsheet(
+                                reverseds_export_path, cidr_sheet, df_subnet)
+                        else:
+                            export_path = utility.get_export_path(
+                                "Enter the export path for the xslx file (leave blank to use the current directory): ")
+                            reverseds_export_path = os.path.join(
+                                export_path, f"{domain_param}_reverse_results.xlsx")
+                            utility.export_xlsx(
+                                reverseds_export_path, cidr_sheet, df_subnet)
+                else:
+                    print("No domain found for the IP addresses in this subnet.")
 
             print(" ")
+        else:
+            print("Skipping the reverse DNS lookup.")
 
-    # Esporta in xlsx
+# Esporta in xlsx
     reply = utility.request_confirm(
         "Do you want to export the results to an xslx file? (y/n):")
     print(" ")
@@ -135,67 +193,7 @@ def main():
             export_path, f"{domain_param}_results.xlsx")
         reverseds_export_path = os.path.join(
             export_path, f"{domain_param}_reverse_results.xlsx")
-        utility.export_xlsx(ds_export_path, domain_param, df)
-
-    reply_reverse = utility.request_confirm(
-        "Do you want to perform the reverse DNS lookup? (y/n):")
-    print(" ")
-
-    if reply_reverse:
-        ip_colonna = 'CIDR'
-
-        for indice, riga in df.iterrows():
-            cidr = riga[ip_colonna]
-            lista_ip = utility.expand_ip_range(cidr)
-
-            print("***************************")
-            print("Results for "+cidr)
-            data_ip_domain = []
-
-            if not lista_ip:
-                print(f"No IP address found for the CIDR: {cidr}")
-                print(" ")
-                continue
-
-            for ip in lista_ip:
-                domain_local = utility.reverse_dns(ip)
-                domain_ripe = utility.get_ripe_reverse_dns(ip)
-
-                if domain_local == domain_ripe or domain_ripe != "No domain found":
-                    domain = domain_ripe
-                elif domain_local != "No domain found":
-                    domain = domain_local
-                else:
-                    domain = "No domain found"
-
-                if domain != "No domain found":
-                    data_ip_domain.append({'IP': ip, 'Domain': domain})
-
-            df_subnet = pd.DataFrame(data_ip_domain)
-            if not df_subnet.empty:
-                print(df_subnet)
-                reply = utility.request_confirm(
-                    "Do you want to export the results to an xslx file? (y/n):")
-                print(" ")
-                if reply:
-                    cidr_sheet = cidr.replace("/", "-")
-                    if os.path.exists(reverseds_export_path):
-                        utility.export_xlsx_newsheet(
-                            reverseds_export_path, cidr_sheet, df_subnet)
-                    else:
-                        export_path = utility.get_export_path(
-                            "Enter the export path for the xslx file (leave blank to use the current directory): ")
-                        reverseds_export_path = os.path.join(
-                            export_path, f"{domain_param}_reverse_results.xlsx")
-                        utility.export_xlsx(
-                            reverseds_export_path, cidr_sheet, df_subnet)
-            else:
-                print("No domain found for the IP addresses in this subnet.")
-
-        print(" ")
-    else:
-        print("Skipping the reverse DNS lookup.")
-
+        utility.export_xlsx(ds_export_path, domain_param, df)   
 
 if __name__ == "__main__":
     main()
