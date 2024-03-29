@@ -27,6 +27,14 @@ To install RipeDB, run the following command:
 ```bash
 pip install ripedb
 ```
+
+### Python
+```bash
+git clone https://github.com/apt-0/RipeDB
+cd RipeDB
+python -m ripedb.main
+```
+
 ## Usage
 To start RipeDB, run the following command:
 ```bash
