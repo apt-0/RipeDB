@@ -19,7 +19,7 @@ Before you begin, make sure you have Python 3.x installed on your system. RipeDB
 
 ## Installation
 
-### PIP
+### Stable Version
 RipeDB can be easily installed via pip. This method is recommended for most users as it automatically manages all project dependencies.
 
 To install RipeDB, run the following command:
@@ -28,7 +28,17 @@ To install RipeDB, run the following command:
 pip install ripedb
 ```
 
-### Python
+### Latest Version
+If you want the latest Features use this methods:
+
+#### PIP
+```bash
+git clone https://github.com/apt-0/RipeDB
+cd RipeDB
+pip install .
+```
+
+#### Python
 ```bash
 git clone https://github.com/apt-0/RipeDB
 cd RipeDB
