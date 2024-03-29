@@ -1,5 +1,4 @@
-from ripedb.utils import utils
-from ripedb.utils import helper
+from utils import utils
 import sys
 import xml.etree.ElementTree as ET
 import os
