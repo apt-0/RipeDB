@@ -1,4 +1,4 @@
-from ripedb.utils import process_input_indixes
+from .process_input_indixes import process_input_indixes
 def request_valid_indixes(max_indice):
     """
     Prompt the user to enter indices or ranges of indices to remove.
@@ -14,7 +14,7 @@ def request_valid_indixes(max_indice):
             "Enter the index or range of indices to remove (e.g., '3' or '1-3,4-5'), or 'n' to finish:")
         if input_utente.lower() == 'n':
             return []
-        indici_validati = process_input_indixes.process_input_indixes(input_utente, max_indice)
+        indici_validati = process_input_indixes(input_utente, max_indice)
         if indici_validati is not None:
             return indici_validati
         else:
