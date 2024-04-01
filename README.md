@@ -57,7 +57,7 @@ or
 ```bash
 ripedb -q <Search-Parameter>
 ```
-If you want to edit the result you have to enter in editing-mode
+If you want to edit the result and perform DNS LOOKUP, you have to enter in editing-mode
 
 ```bash
 ripedb -em
