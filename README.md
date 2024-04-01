@@ -1,4 +1,5 @@
 [![Downloads](https://static.pepy.tech/badge/ripedb)](https://pepy.tech/project/ripedb)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # RipeDB
 <p align="center">
