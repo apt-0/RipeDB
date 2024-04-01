@@ -50,7 +50,21 @@ To start RipeDB, run the following command:
 ```bash
 ripedb
 ```
-Follow the on-screen instructions to enter search parameters and view the results.
+or
+
+```bash
+ripedb -q <Search-Parameter>
+```
+If you want to edit the result you have to enter in editing-mode
+
+```bash
+ripedb -em
+```
+or 
+
+```bash
+ripedb -q <Search-Parameter> -em
+```
 
 ## License
 Distributed under the MIT License. See LICENSE for more information.
