@@ -10,7 +10,7 @@ def show_general_help():
         -h, --help    Shows this help message or details about a specific command.
         -em, --editing-mode Go to Editing Mode and perform DNS Search.
         -o, --output Define path for export the results
-        -dns --dns Perform DNS Lookup without edit the result
+        
 
     """
     print(help_text)
