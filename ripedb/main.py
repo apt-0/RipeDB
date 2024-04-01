@@ -1,4 +1,4 @@
-from ripedb.utils import export_data_to_xlsx, range_to_cidr, request_confirm, helper, request_and_validate_indices, remove_lines, reverse_dns, get_ripe_reverse_dns, expand_ip_range, get_export_path, export_xlsx, export_xlsx_new_sheet
+from ripedb.utils import export_data_to_xlsx, range_to_cidr, request_confirm, helper, request_and_validate_indices, remove_lines, reverse_dns, get_ripe_reverse_dns, expand_ip_range
 import sys
 import xml.etree.ElementTree as ET
 import os
@@ -162,7 +162,7 @@ def main():
                 if not df_subnet.empty:
                     print(df_subnet)
                     print(" ")
-                    export_data_to_xlsx.export_data_to_xlsx(df_subnet,"dns_"+domain_param,args.output)
+                    export_data_to_xlsx.export_data_to_xlsx(df_subnet,"dns_"+domain_param,args.output,"dns")
 
                 else:
                     print("No domain found for the IP addresses in this subnet.")
@@ -171,7 +171,7 @@ def main():
         else:
             print("Skipping the reverse DNS lookup.")
 
-    export_data_to_xlsx.export_data_to_xlsx(df, domain_param, args.output) 
+    export_data_to_xlsx.export_data_to_xlsx(df, domain_param, args.output,"") 
 
 
 if __name__ == "__main__":
