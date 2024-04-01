@@ -1,4 +1,3 @@
-
 def request_confirm(prompt):
     """
     Asks the user to enter 'y' (yes) or 'n' (no) and keeps asking until a valid response is received.
