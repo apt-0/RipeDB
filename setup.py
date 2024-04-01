@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="RipeDB",
-    version="0.3.5",
+    version="0.3.6",
     packages=find_packages(),
     install_requires=[
         'requests',
