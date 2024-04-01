@@ -35,6 +35,7 @@ def main():
     parser.add_argument('-q', '--query', help='Query parameter')
     parser.add_argument('-em', '--editing-mode',
                         help='Enable DNS resolution and editing mode', action='store_true')
+    parser.add_argument('-o', '--output', help='Define output folder')
 
     args = parser.parse_args()
 
@@ -181,18 +182,23 @@ def main():
         else:
             print("Skipping the reverse DNS lookup.")
 
-# Esporta in xlsx
-    reply = request_confirm.request_confirm(
-        "Do you want to export the results to an xslx file? (y/n):")
-    print(" ")
-    if reply:
-        export_path = get_export_path.get_export_path(
-            "Enter the export path for the xslx file (leave blank to use the current directory): ")
-        ds_export_path = os.path.join(
-            export_path, f"{domain_param}_results.xlsx")
-        reverseds_export_path = os.path.join(
-            export_path, f"{domain_param}_reverse_results.xlsx")
+# Export in xlsx
+    if not (args.output):
+        reply = request_confirm.request_confirm(
+            "Do you want to export the results to an xlsx file? (y/n):")
+        print(" ")
+        if reply:
+            export_path = get_export_path.get_export_path(
+                "Enter the export path for the xslx file (leave blank to use the current directory): ")
+    else:
+        reply = True
+        export_path = get_export_path.get_export_path("",args.output)
+
+    if reply:    
+        ds_export_path = os.path.join(export_path, f"{domain_param}_results.xlsx")
+        #reverseds_export_path = os.path.join(export_path, f"{domain_param}_reverse_results.xlsx")
         export_xlsx.export_xlsx(ds_export_path, domain_param, df)   
+
 
 if __name__ == "__main__":
     main()
