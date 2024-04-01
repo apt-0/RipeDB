@@ -1,4 +1,4 @@
-from ripedb.utils import range_to_cidr, request_confirm, helper, request_and_validate_indices, remove_lines, reverse_dns, get_ripe_reverse_dns, expand_ip_range, get_export_path, export_xlsx, export_xlsx_new_sheet,process_input_indixes
+from ripedb.utils import range_to_cidr, request_confirm, helper, request_and_validate_indices, remove_lines, reverse_dns, get_ripe_reverse_dns, expand_ip_range, get_export_path, export_xlsx, export_xlsx_new_sheet
 import sys
 import xml.etree.ElementTree as ET
 import os
