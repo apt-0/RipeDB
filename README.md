@@ -68,6 +68,14 @@ or
 ripedb -q <Search-Parameter> -em
 ```
 
+For output the Search resuts or DNS Result (via editing mode) define -o parameter:
+```bash
+ripedb -q <Search-Parameter> -o <Output-Path>
+```
+You Can Define output parameter as follow:
+- -o '.'
+- -o 'PATH'
+
 ## License
 Distributed under the MIT License. See LICENSE for more information.
 
