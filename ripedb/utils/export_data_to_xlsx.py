@@ -3,7 +3,7 @@ from .request_confirm import request_confirm
 from .get_export_path import get_export_path 
 from .export_xlsx import export_xlsx 
 
-def export_data_to_xlsx(df, domain_param, output_path=None):
+def export_data_to_xlsx(df, domain_param, output_path=None, type_export=""):
     """
     Asks the user if they want to export the data to an xlsx file and proceeds with the export.
 
@@ -13,8 +13,12 @@ def export_data_to_xlsx(df, domain_param, output_path=None):
         output_path (str, optional): The output path provided by the user. Defaults to None.
     """
     if not output_path:
-        reply = request_confirm(
-            "Do you want to export the results to an xlsx file? (y/n):")
+        if type_export == "dns":
+            prompt = "Do you want to export the DNS results to an xlsx file? (y/n):"
+        else:
+            prompt = "Do you want to export the SEARCH results to an xlsx file? (y/n):"
+
+        reply = request_confirm(prompt)
         print(" ")
         if reply:
             export_path = get_export_path(
