@@ -189,7 +189,7 @@ def main():
         print(" ")
         if reply:
             export_path = get_export_path.get_export_path(
-                "Enter the export path for the xslx file (leave blank to use the current directory): ")
+                "Enter the export path for the xlsx file (leave blank to use the current directory): ")
     else:
         reply = True
         export_path = get_export_path.get_export_path("",args.output)
