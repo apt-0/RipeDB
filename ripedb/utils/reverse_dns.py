@@ -1,6 +1,5 @@
 import socket
 
-
 def reverse_dns(ip):
     """
     Perform reverse DNS lookup for the given IP address.
