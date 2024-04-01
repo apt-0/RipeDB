@@ -1,4 +1,4 @@
-from ripedb.utils import range_to_cidr, request_confirm, helper, request_and_validate_indices, remove_lines, reverse_dns, get_ripe_reverse_dns, expand_ip_range, get_export_path, export_xlsx, export_xlsx_new_sheet
+from ripedb.utils import export_data_to_xlsx, range_to_cidr, request_confirm, helper, request_and_validate_indices, remove_lines, reverse_dns, get_ripe_reverse_dns, expand_ip_range, get_export_path, export_xlsx, export_xlsx_new_sheet
 import sys
 import xml.etree.ElementTree as ET
 import os
@@ -36,6 +36,7 @@ def main():
     parser.add_argument('-em', '--editing-mode',
                         help='Enable DNS resolution and editing mode', action='store_true')
     parser.add_argument('-o', '--output', help='Define output folder')
+    parser.add_argument('-dns', '-dns', help='Perform DNS Lookup without edit the result')
 
     args = parser.parse_args()
 
@@ -160,21 +161,9 @@ def main():
                 df_subnet = pd.DataFrame(data_ip_domain)
                 if not df_subnet.empty:
                     print(df_subnet)
-                    reply = request_confirm.request_confirm(
-                        "Do you want to export the results to an xslx file? (y/n):")
                     print(" ")
-                    if reply:
-                        cidr_sheet = cidr.replace("/", "-")
-                        if os.path.exists(reverseds_export_path):
-                            export_xlsx_new_sheet.export_xlsx_newsheet(
-                                reverseds_export_path, cidr_sheet, df_subnet)
-                        else:
-                            export_path = get_export_path.get_export_path(
-                                "Enter the export path for the xslx file (leave blank to use the current directory): ")
-                            reverseds_export_path = os.path.join(
-                                export_path, f"{domain_param}_reverse_results.xlsx")
-                            export_xlsx.export_xlsx(
-                                reverseds_export_path, cidr_sheet, df_subnet)
+                    export_data_to_xlsx.export_data_to_xlsx(df_subnet,"dns_"+domain_param,args.output)
+
                 else:
                     print("No domain found for the IP addresses in this subnet.")
 
@@ -182,22 +171,7 @@ def main():
         else:
             print("Skipping the reverse DNS lookup.")
 
-# Export in xlsx
-    if not (args.output):
-        reply = request_confirm.request_confirm(
-            "Do you want to export the results to an xlsx file? (y/n):")
-        print(" ")
-        if reply:
-            export_path = get_export_path.get_export_path(
-                "Enter the export path for the xlsx file (leave blank to use the current directory): ")
-    else:
-        reply = True
-        export_path = get_export_path.get_export_path("",args.output)
-
-    if reply:    
-        ds_export_path = os.path.join(export_path, f"{domain_param}_results.xlsx")
-        #reverseds_export_path = os.path.join(export_path, f"{domain_param}_reverse_results.xlsx")
-        export_xlsx.export_xlsx(ds_export_path, domain_param, df)   
+    export_data_to_xlsx.export_data_to_xlsx(df, domain_param, args.output) 
 
 
 if __name__ == "__main__":
