@@ -1,6 +1,5 @@
 import requests
 
-
 def get_ripe_reverse_dns(ip):
     """
     Retrieve reverse DNS information from RIPE for the given IP address.
