@@ -30,14 +30,14 @@ pip install ripedb
 ```
 
 ### Latest Version
-If you want the Stable Version use this methods:
+If you want the Latest Version use this methods (Not all Parameter works):
 
 #### PIP
 ```bash
-pip install ripedb
+git clone https://github.com/apt-0/RipeDB
+cd RipeDB
+pip install .
 ```
-If you want the Latest Version use this methods (Not all Parameter works):
-
 #### Python
 ```bash
 git clone https://github.com/apt-0/RipeDB
