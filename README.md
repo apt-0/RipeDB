@@ -48,7 +48,36 @@ python -m ripedb.main
 ## Usage
 To start RipeDB, run the following command:
 ```bash
-ripedb
+ripedb -h
+
+
+····················································
+:                                                  :
+: 888 88e  ,e,                  888 88e   888 88b, :
+: 888 888D  "  888 88e   ,e e,  888 888b  888 88P' :
+: 888 88"  888 888 888b d88 88b 888 8888D 888 8K   :
+: 888 b,   888 888 888P 888   , 888 888P  888 88b, :
+: 888 88b, 888 888 88"   "YeeP" 888 88"   888 88P' :
+:              888                                 :
+:              888                                 :
+:                                                  :
+····················································
+
+usage: main.py [-h] [-q QUERY] [-em] [-o OUTPUT] [-dns DNS] [command]
+
+RipeDB: A tool for performing queries and analysis on RipeDB.
+
+positional arguments:
+  command               The command to execute (query, help).
+
+options:
+  -h, --help            show this help message and exit
+  -q QUERY, --query QUERY
+                        Query parameter
+  -em, --editing-mode   Enable DNS resolution and editing mode
+  -o OUTPUT, --output OUTPUT
+                        Define output folder
+  -dns DNS, -dns DNS    Perform DNS Lookup without edit the result
 ```
 or
 
