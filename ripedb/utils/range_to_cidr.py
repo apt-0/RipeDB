@@ -1,6 +1,5 @@
 import ipaddress
 
-
 def range_to_cidr(ip_range):
     """
     Convert an IP range to its CIDR representation.
