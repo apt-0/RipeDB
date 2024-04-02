@@ -1,6 +1,5 @@
 import ipaddress
 
-
 def expand_ip_range(ip_range):
     """
     Expand an IP range into a list of individual IP addresses.
