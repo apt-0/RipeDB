@@ -50,7 +50,6 @@ To start RipeDB, run the following command:
 ```bash
 ripedb -h
 
-
 ····················································
 :                                                  :
 : 888 88e  ,e,                  888 88e   888 88b, :
@@ -77,7 +76,6 @@ options:
   -em, --editing-mode   Enable DNS resolution and editing mode
   -o OUTPUT, --output OUTPUT
                         Define output folder
-  -dns DNS, -dns DNS    Perform DNS Lookup without edit the result
 ```
 or
 
