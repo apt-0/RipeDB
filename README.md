@@ -34,9 +34,7 @@ If you want the Stable Version use this methods:
 
 #### PIP
 ```bash
-git clone https://github.com/apt-0/RipeDB
-cd RipeDB
-pip install .
+pip install ripedb
 ```
 If you want the Latest Version use this methods:
 
