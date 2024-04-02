@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def remove_lines(dataframe, indici_da_rimuovere):
     """
     Remove specific lines from a DataFrame based on indices.
