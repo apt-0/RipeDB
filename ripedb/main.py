@@ -36,7 +36,7 @@ def main():
     parser.add_argument('-em', '--editing-mode',
                         help='Enable DNS resolution and editing mode', action='store_true')
     parser.add_argument('-o', '--output', help='Define output folder')
-    parser.add_argument('-dns', '-dns', help='Perform DNS Lookup without edit the result')
+    #parser.add_argument('-dns', '-dns', help='Perform DNS Lookup without edit the result')
 
     args = parser.parse_args()
 
